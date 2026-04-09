@@ -1,9 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  turbopack: {
-    root: "/Users/sagarrana/Projects/natural-cure-web",
-  },
+  /* config options here */
 };
 
 export default nextConfig;
