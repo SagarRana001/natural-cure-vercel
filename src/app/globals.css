@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@theme {
+  --color-canvas-white: #FAF9F6;
+  --color-saffron-amber: #D97726;
+  --color-earth-umber: #3C2A21;
+  --color-sage-leaf: #8A9A5B;
+  --color-whisper-sand: rgb(217, 212, 196);
+  --color-background: var(--color-canvas-white);
+  --color-foreground: var(--color-earth-umber);
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
