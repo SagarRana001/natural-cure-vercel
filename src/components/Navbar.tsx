@@ -8,32 +8,42 @@ export function Navbar() {
     <motion.nav
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed top-0 left-0 right-0 z-50 px-6 py-4 flex items-center justify-between mix-blend-difference text-canvas-white"
+      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+      className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-7xl px-8 py-5 flex items-center justify-between rounded-full glass-panel shadow-2xl shadow-earth-umber/5"
     >
-      <Link href="/" className="text-xl font-instrument-serif tracking-wide border-b border-transparent hover:border-canvas-white transition-colors duration-300">
-        Natural Cure
+      <Link href="/" className="flex items-center gap-3 group">
+        <div className="w-8 h-8 bg-earth-umber rounded-full flex items-center justify-center text-[0.6rem] text-canvas-white font-bold tracking-tighter transition-transform group-hover:rotate-12">
+            NC
+        </div>
+        <span className="text-xl font-instrument-serif tracking-tight text-earth-umber">
+            Natural Cure
+        </span>
       </Link>
       
-      <div className="hidden md:flex gap-8 items-center text-sm tracking-widest uppercase">
-        <Link href="#story" className="relative group overflow-hidden">
-          <span className="block transition-transform duration-300 group-hover:-translate-y-full">Story</span>
-          <span className="absolute inset-0 transition-transform duration-300 translate-y-full group-hover:translate-y-0">Story</span>
+      <div className="hidden md:flex gap-10 items-center text-[0.65rem] font-bold tracking-[0.3em] uppercase text-earth-umber/60">
+        <Link href="#collection" className="hover:text-earth-umber transition-colors relative group">
+          Collection
+          <span className="absolute -bottom-1 left-0 w-0 h-px bg-earth-umber transition-all group-hover:w-full"></span>
         </Link>
-        <Link href="#collection" className="relative group overflow-hidden">
-          <span className="block transition-transform duration-300 group-hover:-translate-y-full">Collection</span>
-          <span className="absolute inset-0 transition-transform duration-300 translate-y-full group-hover:translate-y-0">Collection</span>
+        <Link href="#about" className="hover:text-earth-umber transition-colors relative group">
+          Heritage
+          <span className="absolute -bottom-1 left-0 w-0 h-px bg-earth-umber transition-all group-hover:w-full"></span>
         </Link>
-        <Link href="#benefits" className="relative group overflow-hidden">
-          <span className="block transition-transform duration-300 group-hover:-translate-y-full">Benefits</span>
-          <span className="absolute inset-0 transition-transform duration-300 translate-y-full group-hover:translate-y-0">Benefits</span>
+        <Link href="#contact" className="hover:text-earth-umber transition-colors relative group">
+          Contact
+          <span className="absolute -bottom-1 left-0 w-0 h-px bg-earth-umber transition-all group-hover:w-full"></span>
         </Link>
       </div>
 
-      <button className="md:hidden flex flex-col gap-1.5 p-2">
-        <span className="w-6 h-[1px] bg-current block"></span>
-        <span className="w-6 h-[1px] bg-current block"></span>
-      </button>
+      <div className="flex items-center gap-4">
+        <motion.button 
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="px-6 py-2.5 bg-earth-umber text-canvas-white rounded-full text-[0.65rem] font-bold tracking-widest uppercase"
+        >
+          Cart (0)
+        </motion.button>
+      </div>
     </motion.nav>
   );
 }
