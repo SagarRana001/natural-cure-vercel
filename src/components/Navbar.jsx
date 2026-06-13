@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Leaf, User, LogOut } from 'lucide-react';
+import { Menu, X, Leaf, User, LogOut, ShoppingBag } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useCart } from '../contexts/CartContext';
 
 const NAV_ITEMS = [
   { label: 'Home', target: '#home' },
@@ -17,6 +18,7 @@ export default function Navbar({ onOpenAuth }) {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   
   const { user, signOut } = useAuth();
+  const { totalItems, setIsCartOpen } = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -206,6 +208,42 @@ export default function Navbar({ onOpenAuth }) {
               Sign In
             </button>
           )}
+          
+          <button
+            onClick={() => setIsCartOpen(true)}
+            style={{
+              position: 'relative',
+              background: 'none',
+              border: 'none',
+              color: isScrolled ? 'var(--color-primary)' : '#fff',
+              cursor: 'pointer',
+              padding: '0.5rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <ShoppingBag size={20} />
+            {totalItems > 0 && (
+              <span style={{
+                position: 'absolute',
+                top: '0',
+                right: '0',
+                backgroundColor: 'var(--color-accent)',
+                color: '#fff',
+                fontSize: '0.65rem',
+                fontWeight: 700,
+                width: '16px',
+                height: '16px',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+                {totalItems}
+              </span>
+            )}
+          </button>
         </div>
 
         {/* Mobile Toggle Menu */}
@@ -311,6 +349,29 @@ export default function Navbar({ onOpenAuth }) {
                 Sign In
               </button>
             )}
+            
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                setIsCartOpen(true);
+              }}
+              className="btn"
+              style={{
+                width: '100%',
+                justifyContent: 'center',
+                padding: '1rem',
+                textAlign: 'center',
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                color: '#fff',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem'
+              }}
+            >
+              <ShoppingBag size={18} />
+              Cart ({totalItems})
+            </button>
           </motion.div>
         )}
       </AnimatePresence>

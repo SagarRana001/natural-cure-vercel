@@ -1,47 +1,53 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Loader from './components/Loader';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import About from './components/About';
-import ScrollSoapAnimation from './components/ScrollSoapAnimation';
-import Products from './components/Products';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
 import { AuthProvider } from './contexts/AuthContext';
+import { CartProvider } from './contexts/CartContext';
 import AuthModal from './components/AuthModal';
+import CartSidebar from './components/CartSidebar';
+import OrderModal from './components/OrderModal';
+import HomePage from './pages/HomePage';
+import ProductDetailsPage from './pages/ProductDetailsPage';
+
 export default function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
   return (
-    <AuthProvider>
-      {/* Full screen botanical loader screen */}
-      <Loader onComplete={() => setIsLoaded(true)} />
+    <Router>
+      <AuthProvider>
+        <CartProvider>
+          {/* Full screen botanical loader screen */}
+          <Loader onComplete={() => setIsLoaded(true)} />
 
-      {/* Main website page content */}
-      {isLoaded && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, ease: 'easeOut' }}
-          style={{ width: '100%' }}
-        >
-          <Navbar onOpenAuth={() => setIsAuthModalOpen(true)} />
-          <Hero />
-          <About />
-          <ScrollSoapAnimation />
-          <Products />
-          <Contact />
-          <Footer />
-        </motion.div>
-      )}
+          {/* Main website page content */}
+          {isLoaded && (
+            <div style={{ width: '100%' }}>
+              <Navbar onOpenAuth={() => setIsAuthModalOpen(true)} />
+              
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/product/:id" element={<ProductDetailsPage />} />
+              </Routes>
+            </div>
+          )}
 
-      {/* Authentication Modal */}
-      <AuthModal 
-        isOpen={isAuthModalOpen} 
-        onClose={() => setIsAuthModalOpen(false)} 
-      />
+          {/* Overlays */}
+          <CartSidebar onCheckout={() => setIsOrderModalOpen(true)} />
+        
+        <AuthModal 
+          isOpen={isAuthModalOpen} 
+          onClose={() => setIsAuthModalOpen(false)} 
+        />
+        
+        <OrderModal 
+          isOpen={isOrderModalOpen} 
+          onClose={() => setIsOrderModalOpen(false)} 
+        />
+      </CartProvider>
     </AuthProvider>
+    </Router>
   );
 }

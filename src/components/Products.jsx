@@ -1,64 +1,25 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, Check } from 'lucide-react';
-
-const PRODUCTS = [
-  {
-    id: 1,
-    name: 'Natural Cure Neem Soap',
-    subtitle: 'Homemade Soaps Crafted by Ayurveda',
-    price: '$14.00',
-    tags: ['Organic', 'Acne-Prone', 'Purifying'],
-    ingredients: ['Pure Neem Oil', 'Neem Leaf Extract', 'French Green Clay', 'Raw Shea Butter'],
-    description: 'Our signature therapeutic Ayurvedic bar. Handcrafted using raw, organic cold-pressed neem oils and fresh neem leaf extract to soothe irritation, clear acne, and restore balance to troubled skin.',
-    image: '/products/neem_soap.jpg'
-  },
-  {
-    id: 2,
-    name: 'De-Tan Soap',
-    subtitle: 'Homemade Soaps Crafted by Ayurveda',
-    price: '$13.00',
-    tags: ['Exfoliating', 'Brightening', 'Organic'],
-    ingredients: ['Organic Coffee Grounds', 'Masoor Dal (Red Lentil)', 'Sandalwood Extract', 'Coconut Oil'],
-    description: 'An exfoliating Ayurvedic blend featuring active coffee grounds and masoor dal powder. Gently sweeps away dead cells, targets sun tan, and reveals your skins natural, bright glow.',
-    image: '/products/detan_soap.jpg'
-  },
-  {
-    id: 3,
-    name: 'Natural Cure Aloe Vera Soap',
-    subtitle: 'Homemade Soaps Crafted by Ayurveda',
-    price: '$12.00',
-    tags: ['Sensitive Skin', 'Hydrating', 'Organic'],
-    ingredients: ['Fresh Aloe Vera Gel', 'Chamomile Extract', 'Avocado Oil', 'Olive Oil'],
-    description: 'A deeply hydrating, calming skin treat. Formulated with fresh inner gel of organic aloe vera leaves and cold-pressed moisturizing oils to soothe irritation, restore moisture, and rejuvenate sensitive skin.',
-    image: '/products/aloe_soap.jpg'
-  },
-  {
-    id: 4,
-    name: 'Rice Potato Soap',
-    subtitle: 'Homemade Soaps Crafted by Ayurveda',
-    price: '$14.00',
-    tags: ['Dry Skin', 'Brightening', 'Even Tone'],
-    ingredients: ['Organic Rice Powder', 'Potato Juice Extract', 'Sweet Almond Oil', 'Cocoa Butter'],
-    description: 'An even-tone correcting Ayurvedic bar. Potatoes contain natural brightening catecholase enzymes, blended here with smoothing rice flour and almond oil to lighten dark spots and hydrate dry skin.',
-    image: '/products/rice_potato_soap.jpg'
-  }
-];
+import { useCart } from '../contexts/CartContext';
+import { Link } from 'react-router-dom';
+import { PRODUCTS } from '../data/products';
 
 export default function Products() {
   const [activeTab, setActiveTab] = useState('All');
   const [addingToCart, setAddingToCart] = useState({});
+  const { addToCart } = useCart();
 
-  const handleAddToCart = (id) => {
-    setAddingToCart(prev => ({ ...prev, [id]: 'adding' }));
+  const handleAddToCart = (product) => {
+    setAddingToCart(prev => ({ ...prev, [product.id]: 'adding' }));
     
-    // Simulate premium micro-interaction timing
     setTimeout(() => {
-      setAddingToCart(prev => ({ ...prev, [id]: 'success' }));
+      addToCart(product);
+      setAddingToCart(prev => ({ ...prev, [product.id]: 'success' }));
       setTimeout(() => {
-        setAddingToCart(prev => ({ ...prev, [id]: null }));
+        setAddingToCart(prev => ({ ...prev, [product.id]: null }));
       }, 1500);
-    }, 1000);
+    }, 500);
   };
 
   const filteredProducts = activeTab === 'All' 
@@ -163,48 +124,50 @@ export default function Products() {
                 height: '100%',
               }}
             >
-              {/* Product Visual Container (Uploaded Illustration) */}
-              <div
-                style={{
-                  height: '260px',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  background: 'hsl(40, 20%, 93%)',
-                }}
-              >
-                <motion.img
-                  src={product.image}
-                  alt={product.name}
+              {/* Product Visual Container */}
+              <Link to={`/product/${product.id}`} style={{ textDecoration: 'none' }}>
+                <div
                   style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                  }}
-                  whileHover={{ scale: 1.08 }}
-                  transition={{ duration: 0.5, ease: 'easeOut' }}
-                />
-                
-                {/* Tag Overlay */}
-                <span
-                  style={{
-                    position: 'absolute',
-                    top: '1rem',
-                    right: '1rem',
-                    backgroundColor: 'rgba(24, 38, 29, 0.75)',
-                    backdropFilter: 'blur(5px)',
-                    padding: '0.3rem 0.8rem',
-                    borderRadius: '99px',
-                    fontSize: '0.7rem',
-                    fontWeight: 600,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.05em',
-                    color: 'hsl(40, 25%, 97%)',
-                    zIndex: 2,
+                    height: '260px',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    background: 'hsl(40, 20%, 93%)',
                   }}
                 >
-                  Ayurveda
-                </span>
-              </div>
+                  <motion.img
+                    src={product.image}
+                    alt={product.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                    }}
+                    whileHover={{ scale: 1.08 }}
+                    transition={{ duration: 0.5, ease: 'easeOut' }}
+                  />
+                  
+                  {/* Tag Overlay */}
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: '1rem',
+                      right: '1rem',
+                      backgroundColor: 'rgba(24, 38, 29, 0.75)',
+                      backdropFilter: 'blur(5px)',
+                      padding: '0.3rem 0.8rem',
+                      borderRadius: '99px',
+                      fontSize: '0.7rem',
+                      fontWeight: 600,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
+                      color: 'hsl(40, 25%, 97%)',
+                      zIndex: 2,
+                    }}
+                  >
+                    Ayurveda
+                  </span>
+                </div>
+              </Link>
 
               {/* Product Info Block */}
               <div
@@ -217,16 +180,18 @@ export default function Products() {
                 }}
               >
                 <div>
-                  <h3
-                    style={{
-                      fontFamily: 'var(--font-serif)',
-                      fontSize: '1.6rem',
-                      color: 'var(--color-primary)',
-                      marginBottom: '0.25rem',
-                    }}
-                  >
-                    {product.name}
-                  </h3>
+                  <Link to={`/product/${product.id}`} style={{ textDecoration: 'none' }}>
+                    <h3
+                      style={{
+                        fontFamily: 'var(--font-serif)',
+                        fontSize: '1.6rem',
+                        color: 'var(--color-primary)',
+                        marginBottom: '0.25rem',
+                      }}
+                    >
+                      {product.name}
+                    </h3>
+                  </Link>
                   <span
                     style={{
                       fontSize: '0.8rem',
@@ -300,7 +265,7 @@ export default function Products() {
                   </span>
 
                   <button
-                    onClick={() => handleAddToCart(product.id)}
+                    onClick={() => handleAddToCart(product)}
                     disabled={addingToCart[product.id] === 'adding'}
                     className="btn"
                     style={{
