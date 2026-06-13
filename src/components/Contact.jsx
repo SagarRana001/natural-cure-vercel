@@ -16,7 +16,7 @@ export default function Contact() {
       setIsSubmitting(false);
       setIsSuccess(true);
       setFormState({ name: '', email: '', subject: '', message: '' });
-      
+
       // Keep success message visible for a few seconds
       setTimeout(() => {
         setIsSuccess(false);
@@ -117,8 +117,8 @@ export default function Contact() {
                     Address
                   </h4>
                   <p style={{ fontSize: '0.95rem', opacity: 0.7 }}>
-                    742 Neem Grove Lane, Suite B<br />
-                    Ojai, California 93023
+                    Address Udhna, Surat,<br />
+                    Gujrat, India
                   </p>
                 </div>
               </div>
@@ -139,7 +139,7 @@ export default function Contact() {
                 >
                   <Clock size={20} style={{ color: 'var(--color-accent)' }} />
                 </div>
-                <div>
+                {/* <div>
                   <h4 style={{ fontFamily: 'var(--font-sans)', fontSize: '0.9rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.2rem' }}>
                     Visiting Hours
                   </h4>
@@ -147,7 +147,7 @@ export default function Contact() {
                     Wed – Sat: 10:00 AM – 6:00 PM<br />
                     Sun: 11:00 AM – 4:00 PM
                   </p>
-                </div>
+                </div> */}
               </div>
 
               {/* Item 3 */}
@@ -170,8 +170,8 @@ export default function Contact() {
                   <h4 style={{ fontFamily: 'var(--font-sans)', fontSize: '0.9rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.2rem' }}>
                     Email & Support
                   </h4>
-                  <a href="mailto:hello@naturalcure.com" style={{ fontSize: '0.95rem', opacity: 0.7, color: 'var(--color-primary-light)', textDecoration: 'underline' }}>
-                    hello@naturalcure.com
+                  <a href="mailto:dimpal128@gmail.com" style={{ fontSize: '0.95rem', opacity: 0.7, color: 'var(--color-primary-light)', textDecoration: 'underline' }}>
+                    dimpal128@gmail.com
                   </a>
                 </div>
               </div>
@@ -196,8 +196,8 @@ export default function Contact() {
                   <h4 style={{ fontFamily: 'var(--font-sans)', fontSize: '0.9rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.2rem' }}>
                     Phone
                   </h4>
-                  <a href="tel:+18055550199" style={{ fontSize: '0.95rem', opacity: 0.7 }}>
-                    +1 (805) 555-0199
+                  <a href="tel:+919924848761" style={{ fontSize: '0.95rem', opacity: 0.7 }}>
+                    +91 99248 48761
                   </a>
                 </div>
               </div>
