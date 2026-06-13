@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Leaf } from 'lucide-react';
+import { Menu, X, Leaf, User, LogOut } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 
 const NAV_ITEMS = [
   { label: 'Home', target: '#home' },
@@ -10,10 +11,12 @@ const NAV_ITEMS = [
   { label: 'Contact', target: '#contact' }
 ];
 
-export default function Navbar() {
+export default function Navbar({ onOpenAuth }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  
+  const { user, signOut } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -153,21 +156,56 @@ export default function Navbar() {
             ))}
           </ul>
 
-          <a
-            href="#products"
-            onClick={(e) => handleLinkClick(e, '#products')}
-            className="btn btn-primary"
-            style={{
-              padding: '0.6rem 1.4rem',
-              fontSize: '0.75rem',
-              color: '#fff',
-              backgroundColor: isScrolled ? 'var(--color-primary)' : 'rgba(255, 255, 255, 0.15)',
-              border: isScrolled ? 'none' : '1px solid rgba(255, 255, 255, 0.3)',
-              backdropFilter: isScrolled ? 'none' : 'blur(10px)',
-            }}
-          >
-            Shop Now
-          </a>
+          {user ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <div 
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  color: isScrolled ? 'var(--color-primary)' : '#fff',
+                  fontSize: '0.85rem',
+                  fontWeight: 500,
+                }}
+              >
+                <User size={16} />
+                <span style={{ maxWidth: '100px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {user.email.split('@')[0]}
+                </span>
+              </div>
+              <button
+                onClick={signOut}
+                className="btn btn-secondary"
+                style={{
+                  padding: '0.5rem',
+                  borderRadius: '50%',
+                  color: isScrolled ? 'var(--color-primary)' : '#fff',
+                  borderColor: isScrolled ? 'var(--color-primary)' : 'rgba(255,255,255,0.3)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                title="Sign Out"
+              >
+                <LogOut size={16} />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={onOpenAuth}
+              className="btn btn-primary"
+              style={{
+                padding: '0.6rem 1.4rem',
+                fontSize: '0.75rem',
+                color: '#fff',
+                backgroundColor: isScrolled ? 'var(--color-primary)' : 'rgba(255, 255, 255, 0.15)',
+                border: isScrolled ? 'none' : '1px solid rgba(255, 255, 255, 0.3)',
+                backdropFilter: isScrolled ? 'none' : 'blur(10px)',
+              }}
+            >
+              Sign In
+            </button>
+          )}
         </div>
 
         {/* Mobile Toggle Menu */}
@@ -238,19 +276,41 @@ export default function Navbar() {
                 </li>
               ))}
             </ul>
-            <a
-              href="#products"
-              onClick={(e) => handleLinkClick(e, '#products')}
-              className="btn btn-accent"
-              style={{
-                width: '100%',
-                justifyContent: 'center',
-                padding: '1rem',
-                textAlign: 'center',
-              }}
-            >
-              Shop Artisanal Soaps
-            </a>
+            {user ? (
+              <button
+                onClick={() => {
+                  signOut();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="btn btn-secondary"
+                style={{
+                  width: '100%',
+                  justifyContent: 'center',
+                  padding: '1rem',
+                  textAlign: 'center',
+                  borderColor: 'rgba(255,255,255,0.2)',
+                  color: '#fff',
+                }}
+              >
+                Sign Out ({user.email.split('@')[0]})
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  onOpenAuth();
+                }}
+                className="btn btn-accent"
+                style={{
+                  width: '100%',
+                  justifyContent: 'center',
+                  padding: '1rem',
+                  textAlign: 'center',
+                }}
+              >
+                Sign In
+              </button>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
