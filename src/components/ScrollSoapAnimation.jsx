@@ -104,12 +104,41 @@ export default function ScrollSoapAnimation() {
     const totalFrames = 300;
 
     if (images.length === 0) {
-      for (let i = 1; i <= totalFrames; i++) {
-        const img = new Image();
-        const frameNumber = String(i).padStart(3, '0');
-        img.src = `/neemFrames/ezgif-frame-${frameNumber}.jpg`;
-        images.push(img);
+      // Pre-fill array with nulls
+      for (let i = 0; i < totalFrames; i++) {
+        images.push(null);
       }
+      window.preloadedNeemImages = images;
+
+      const loadFrames = (start, end) => {
+        for (let i = start; i <= end; i++) {
+          if (!images[i - 1]) {
+            const img = new Image();
+            const frameNumber = String(i).padStart(3, '0');
+            img.src = `/neemFrames/ezgif-frame-${frameNumber}.jpg`;
+            images[i - 1] = img;
+          }
+        }
+      };
+
+      // Load first 15 frames immediately
+      loadFrames(1, 15);
+
+      // Load the rest progressively
+      let currentBatch = 16;
+      const batchSize = 25;
+
+      const loadNextBatch = () => {
+        if (currentBatch <= totalFrames) {
+          const end = Math.min(currentBatch + batchSize - 1, totalFrames);
+          loadFrames(currentBatch, end);
+          currentBatch += batchSize;
+          setTimeout(loadNextBatch, 150);
+        }
+      };
+
+      // Delay background loading to prioritize initial page render and video
+      setTimeout(loadNextBatch, 1000);
     }
 
     const handleResize = () => {
