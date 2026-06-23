@@ -35,12 +35,12 @@ export default function Loader({ onComplete }) {
         const img = new Image();
         const frameNumber = String(i).padStart(3, '0');
         img.src = `/neemFrames/ezgif-frame-${frameNumber}.jpg`;
-        
+
         img.onload = () => {
           loadedCount++;
           const currentProgress = Math.round((loadedCount / totalFrames) * 100);
           setProgress(currentProgress);
-          
+
           // Update status text based on progress brackets
           const step = LOADING_STEPS.find(s => currentProgress <= s.max);
           if (step) {
@@ -78,7 +78,7 @@ export default function Loader({ onComplete }) {
 
         images.push(img);
       }
-      
+
       // Save preloaded images on window so they are immediately available in cache
       window.preloadedNeemImages = images;
     };
@@ -189,7 +189,7 @@ export default function Loader({ onComplete }) {
                 transition={{ duration: 0.1 }}
               />
             </div>
-            
+
             <p
               style={{
                 marginTop: '1rem',

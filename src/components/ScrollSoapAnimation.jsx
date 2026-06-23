@@ -253,7 +253,7 @@ export default function ScrollSoapAnimation() {
             opacity: 0.65, // Soft overlay style
           }}
         />
-        
+
         {/* Subtle dark green vignette gradient that shields the right side for card text readability */}
         <div
           style={{
