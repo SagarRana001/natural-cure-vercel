@@ -47,6 +47,16 @@ export default function Hero() {
           ease: "power3.out",
         },
         "-=1.2"
+      )
+      .from(
+        ".hero-button",
+        {
+          y: 20,
+          opacity: 0,
+          duration: 1.2,
+          ease: "power3.out",
+        },
+        "-=1.0"
       );
 
       // Scroll Parallax Animation
@@ -97,59 +107,69 @@ export default function Hero() {
     <section
       ref={container}
       id="home"
-      className="relative w-full min-h-[100dvh] flex items-center justify-start overflow-hidden bg-[var(--bg-primary)] px-8 md:px-24"
+      className="relative w-full min-h-[100dvh] flex items-center justify-start overflow-hidden bg-[#1a1f1a] px-8 md:px-24 pt-20"
     >
       {/* Background Image Parallax */}
-      <picture>
-        <source media="(max-width: 768px)" srcSet="/mobile-banner.png" />
-        <img
-          ref={backgroundRef}
-          src="/hero-banner.png"
-          alt="Natural Cure Ayurvedic Soap"
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ transformOrigin: "center top" }}
-        />
-      </picture>
+      <img
+        ref={backgroundRef}
+        src="/hero-banner-new.png"
+        alt="Natural Cure Ayurvedic Soap"
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ transformOrigin: "center center" }}
+      />
 
-      {/* Elegant dark gradient overlay instead of flat opacity */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent" />
+      {/* Elegant dark gradient overlay for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
+      <div className="absolute inset-0 bg-black/20" />
 
       {/* Floating Leaves */}
-      <div ref={leavesRef} className="absolute inset-0 pointer-events-none">
+      <div ref={leavesRef} className="absolute inset-0 pointer-events-none mix-blend-screen">
         {[...Array(6)].map((_, i) => (
           <div
             key={i}
-            className="floating-leaf absolute opacity-60"
+            className="floating-leaf absolute opacity-40"
             style={{
               top: `${15 + (i * 17) % 70}%`,
-              left: `${40 + (i * 23) % 50}%`,
+              left: `${30 + (i * 23) % 60}%`,
               transform: `scale(${0.5 + ((i * 13) % 10) / 10})`,
-              color: "var(--accent-green-light)",
+              color: "#a4c4b5",
             }}
           >
-            <Leaf size={40} fill="currentColor" />
+            <Leaf size={40} fill="currentColor" strokeWidth={1} />
           </div>
         ))}
       </div>
 
       {/* Hero Text - Asymmetric & Left Aligned */}
-      <div ref={textRef} className="relative z-10 text-left max-w-4xl mt-16 md:mt-24">
+      <div ref={textRef} className="relative z-10 text-left max-w-4xl mt-8">
+        <div className="hero-text-line inline-block px-4 py-1 border border-[#a4c4b5]/30 rounded-full mb-8 backdrop-blur-sm bg-white/5">
+          <span className="text-[#a4c4b5] text-sm tracking-widest uppercase font-medium">100% Organic & Ayurvedic</span>
+        </div>
+        
         <h1 
-          className="text-5xl md:text-8xl lg:text-9xl font-bold mb-4 md:mb-6 text-white leading-[0.9]" 
-          style={{ fontFamily: "var(--font-playfair)", letterSpacing: "-0.03em" }}
+          className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 text-white leading-[1.1]" 
+          style={{ fontFamily: "var(--font-playfair)", letterSpacing: "-0.02em" }}
         >
-          <div className="overflow-hidden">
-            <span className="block hero-text-line">Natural</span>
+          <div className="overflow-hidden pb-2">
+            <span className="block hero-text-line">Healing the body.</span>
           </div>
-          <div className="overflow-hidden flex items-center gap-3 md:gap-4 mt-1 md:mt-0">
-            <span className="block hero-text-line italic font-normal text-white/90">Cure</span>
-            <div className="hero-text-line h-1.5 md:h-3 w-12 md:w-32 bg-[var(--accent-gold)] mt-2 md:mt-4"></div>
+          <div className="overflow-hidden flex items-center gap-3 md:gap-4 mt-1 md:mt-2 pb-2">
+            <span className="block hero-text-line text-white/90">Nurturing the <span className="italic text-[#a4c4b5] font-light">soul.</span></span>
           </div>
         </h1>
         
-        <p className="hero-subtitle text-base md:text-2xl text-white/80 font-light max-w-xl leading-relaxed mt-4 md:mt-0">
-          Artisanal Ayurvedic care. Healing the body and nurturing the soul with purely organic ingredients.
+        <p className="hero-subtitle text-base md:text-xl text-white/70 font-light max-w-xl leading-relaxed mb-10">
+          Artisanal Ayurvedic care crafted with purely organic ingredients. Experience holistic wellness with our toxin-free, herbal solutions.
         </p>
+
+        <div className="hero-button flex flex-wrap gap-4">
+          <button className="px-8 py-4 bg-[#a4c4b5] text-[#1a2f23] rounded-full font-medium tracking-wide hover:bg-white transition-colors duration-300">
+            Explore Collection
+          </button>
+          <button className="px-8 py-4 bg-transparent border border-white/30 text-white rounded-full font-medium tracking-wide hover:bg-white/10 transition-colors duration-300">
+            Our Story
+          </button>
+        </div>
       </div>
     </section>
   );
